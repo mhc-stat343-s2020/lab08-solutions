@@ -1,0 +1,38 @@
+---
+title: "Stat 343: Monte Carlo Integration"
+output:
+  pdf_document
+---
+
+\newcommand{\simiid}{{\mathrel {\mathop {\sim}\limits _{}^{\rm iid}}\,}}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+It can be shown that if $\mu | x_1, \ldots, x_{15} \sim \text{Normal}(45.53, 1.953^2)$ and $X | \mu \sim \text{Normal}(\mu, 8^2)$, then $X | x_1, \ldots, x_{15} \sim \text{Normal}(45.53, 1.953^2 + 8^2)$
+
+#### (1) Draw a sample of size 10^6 from a normal distribution with mean 45.53 and standard deviation $\sqrt{1.953^2 + 8^2}$; save your results in a variable called $x$.
+
+```{r}
+x <- rnorm(10^6, mean = 45.53, sd = sqrt(1.953^2 + 8^2))
+```
+
+#### (2) Use your sampled values $x$ to estimate the expected value of $W | x_1, \ldots, x_{15}$.
+
+```{r}
+mean(0.088 * x^3.069)
+```
+
+#### (3) Use your sampled values $x$ to estimate the posterior probability that a newly sampled fish of this species in California will have a weight $W$ between 25 and 30 pounds.
+
+```{r}
+mean((0.088 * x^3.069 >= 25) & (0.088 * x^3.069 <= 30))
+```
+
+
+
